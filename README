@@ -1,0 +1,10 @@
+I have Solution, 
+1. clone source code
+2. open launcher/minecraft/MinecraftInstance.cpp
+3. find makeShared<AssetUpdateTask>(this),
+4. remark it.
+5. recompile it , here is instructions : https://prismlauncher.org/wiki/development/build-instructions
+Now you can have a version of Prism Launcher who never update Asset index. you can use is to play, when you do not have internet.
+I do not know what further to do, but this for me is a reasonable Solution anyway....
+
+if you wanna a copy you can contact me
