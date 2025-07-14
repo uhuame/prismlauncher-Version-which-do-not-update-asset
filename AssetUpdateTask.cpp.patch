@@ -1,0 +1,28 @@
+--- ../PrismLauncher-develop/launcher/minecraft/update/AssetUpdateTask.cpp	2025-07-12 13:28:16.000000000 +0800
++++ launcher/minecraft/update/AssetUpdateTask.cpp	2025-07-09 01:48:01.993823160 +0800
+@@ -17,6 +17,7 @@
+ 
+ void AssetUpdateTask::executeTask()
+ {
++    qWarning() << " 无论何时都认为 Asset index 更新成功 ";
+     setStatus(tr("Updating assets index..."));
+     auto components = m_inst->getPackProfile();
+     auto profile = components->getProfile();
+@@ -37,10 +38,17 @@
+     downloadJob.reset(job);
+ 
+     connect(downloadJob.get(), &NetJob::succeeded, this, &AssetUpdateTask::assetIndexFinished);
++    connect(downloadJob.get(), &NetJob::failed, this, &AssetUpdateTask::assetIndexFinished);
++    connect(downloadJob.get(), &NetJob::aborted, this, &AssetUpdateTask::assetIndexFinished);
++    connect(downloadJob.get(), &NetJob::progress, this, &AssetUpdateTask::progress);
++    connect(downloadJob.get(), &NetJob::stepProgress, this, &AssetUpdateTask::propagateStepProgress);
++/*
++    connect(downloadJob.get(), &NetJob::succeeded, this, &AssetUpdateTask::assetIndexFinished);
+     connect(downloadJob.get(), &NetJob::failed, this, &AssetUpdateTask::assetIndexFailed);
+     connect(downloadJob.get(), &NetJob::aborted, this, [this] { emitFailed(tr("Aborted")); });
+     connect(downloadJob.get(), &NetJob::progress, this, &AssetUpdateTask::progress);
+     connect(downloadJob.get(), &NetJob::stepProgress, this, &AssetUpdateTask::propagateStepProgress);
++*/
+ 
+     qDebug() << m_inst->name() << ": Starting asset index download";
+     downloadJob->start();
